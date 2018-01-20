@@ -32,15 +32,15 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        {Array(3).fill(null).map((value, rowIndex) => {
-          return (
+        {Array(3).fill(null).map((value, rowIndex) =>
+          (
             <div className="board-row" key={rowIndex}>
-              {Array(3).fill(null).map((value, colIndex) => {
-                return this.renderSquare(colIndex, rowIndex);
-              })}
+              {Array(3).fill(null).map((value, colIndex) =>
+                this.renderSquare(colIndex, rowIndex)
+              )}
             </div>
-          );
-        })}
+          )
+        )}
       </div>
     );
   }
