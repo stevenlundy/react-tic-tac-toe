@@ -16,12 +16,12 @@ function Square(props) {
 
 
 class Board extends React.Component {
-  renderSquare(rowIndex, colIndex) {
+  renderSquare(colIndex, rowIndex) {
     const index = rowIndex * 3 + colIndex;
     return (
       <Square
         value={this.props.squares[index]}
-        onClick={() => this.props.onClick(index)}
+        onClick={() => this.props.onClick(colIndex, rowIndex)}
       />
     );
   }
@@ -33,7 +33,7 @@ class Board extends React.Component {
           return (
             <div className="board-row">
               {Array(3).fill(null).map((value, colIndex) => {
-                return this.renderSquare(rowIndex, colIndex);
+                return this.renderSquare(colIndex, rowIndex);
               })}
             </div>
           );
@@ -55,7 +55,8 @@ class Game extends React.Component {
     };
   }
 
-  handleClick(i) {
+  handleClick(colIndex, rowIndex) {
+    const i = rowIndex * 3 + colIndex
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length-1];
     const squares = current.squares.slice();
@@ -66,7 +67,9 @@ class Game extends React.Component {
     // use setState to tell React to rerender (and preserve immutablitly)
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        col: colIndex,
+        row: rowIndex
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
@@ -87,7 +90,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' +move :
+        'Go to move #' + move + ' (' + step.col + ',' + step.row + ')' :
         'Go to gave start';
       return (
         <li key={move} className={move === this.state.stepNumber ? 'selected' : ''}>
@@ -108,7 +111,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
+            onClick={(i, j) => this.handleClick(i, j)}
           />
         </div>
         <div className="game-info">
