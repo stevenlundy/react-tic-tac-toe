@@ -16,11 +16,12 @@ function Square(props) {
 
 
 class Board extends React.Component {
-  renderSquare(i) {
+  renderSquare(rowIndex, colIndex) {
+    const index = rowIndex * 3 + colIndex;
     return (
       <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.props.squares[index]}
+        onClick={() => this.props.onClick(index)}
       />
     );
   }
@@ -28,22 +29,15 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {Array(3).fill(null).map((value, rowIndex) => {
+          return (
+            <div className="board-row">
+              {Array(3).fill(null).map((value, colIndex) => {
+                return this.renderSquare(rowIndex, colIndex);
+              })}
+            </div>
+          );
+        })}
       </div>
     );
   }
