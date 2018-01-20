@@ -28,6 +28,7 @@ class Board extends React.Component {
   render() {
     return (
       <div>
+
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -95,7 +96,7 @@ class Game extends React.Component {
         'Go to move #' +move :
         'Go to gave start';
       return (
-        <li key={move}>
+        <li key={move} className={move === this.state.stepNumber ? 'selected' : ''}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
